@@ -351,7 +351,8 @@ float LTC2943::readAccumulatedCharge()
 	unsigned char u_c_accumulated_msb_byte = 0;
 	unsigned char u_c_accumulated_lsb_byte = 0;
 
-	i_status = batteryReader->ReadTwoDataByte(ACC_CHARGE_MSB, u_c_accumulated_msb_byte, u_c_accumulated_lsb_byte);
+    	i_status = batteryReader->ReadDataByte(ACC_CHARGE_MSB, u_c_accumulated_msb_byte);
+    	i_status = batteryReader->ReadDataByte(ACC_CHARGE_LSB, u_c_accumulated_lsb_byte);	
 
 	if(i_status < 0)
 	{
