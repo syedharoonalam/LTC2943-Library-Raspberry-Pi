@@ -210,8 +210,19 @@ int IMI2C::WriteByte(unsigned char u_c_byte)
 	    exit(1);
 	}
 
-	int returnval = i2c_smbus_read_byte(i_i2cfd);
+	//int returnval = i2c_smbus_read_byte(i_i2cfd); //i2c-smbus.h not available in L4T
+    	int returnval = 0;
 
+    	/* Using I2C Read, equivalent of i2c_smbus_read_byte(file) */
+    	char buf = 0;
+      	if (read(i_i2cfd, &buf, 1) != 1) {
+        	/* ERROR HANDLING: i2c transaction failed */
+          	printf("Unable to read i2c\n");
+      	} else {
+        	/* buf[0] contains the read byte */          
+          	returnval = buf;
+      	}
+	
 	this->CloseI2C(i_i2cfd);
 
 	return returnval;
